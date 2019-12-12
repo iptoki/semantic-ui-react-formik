@@ -237,6 +237,9 @@ export default class Wizard extends React.Component {
         else if (buttonLabels && buttonLabels.previous) {
             previousLabel = buttonLabels.previous;
         }
+
+        const { ButtonsWrapper } = this.props
+
         return (
             <Formik
                 initialValues={values}
@@ -250,6 +253,42 @@ export default class Wizard extends React.Component {
                     const hasErrors = errors.length > 0;
                     const disableNext = hasErrors && disableSubmitOnError;
                     const disableSubmit = disableNext || props.isSubmitting;
+
+                    const buttons = () => (
+                        <Form.Group className='wizard-buttons' style={{ display: 'block', overflow: 'hidden' }}>
+                            <div className="ui grid">
+                                <div className="ui row">
+                                    <div className="four wide column" />
+                                    <div className="ten wide column">
+                                        {showSubmit && isLastPage && (
+                                            <Button type='submit' floated='right' primary disabled={disableSubmit}>
+                                                {submitLabel}
+                                            </Button>
+                                        )}
+
+                                        {showSubmit && !isLastPage && (
+                                            <Button floated='right' onClick={(e) => this.next(e, props)} primary disabled={disableNext}>
+                                                {nextLabel}
+                                            </Button>
+                                        )}
+                                        {showPrevious && page > 0 && (
+
+                                            <Button className="negative"
+                                                style={{
+                                                    border: "1px solid #DCDFE1",
+                                                    bordeRadius: "3px"
+                                                }}
+                                                floated='left' onClick={(e) => this.previous(e, props)} negative>
+                                                {previousLabel}
+                                            </Button>
+
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </Form.Group>
+                    )
+
                     return (
                         <Form onSubmit={props.handleSubmit}>
 
@@ -261,25 +300,11 @@ export default class Wizard extends React.Component {
                                 }
                             })}
 
-                            <Form.Group className='wizard-buttons' style={{ display: 'block', overflow: 'hidden'}}>
-                                {showSubmit && isLastPage && (
-                                    <Button type='submit' floated='right' primary disabled={disableSubmit}>
-                                        {submitLabel}
-                                    </Button>
-                                )}
-
-                                {showSubmit && !isLastPage && (
-                                    <Button floated='right' onClick={(e) => this.next(e, props)} primary disabled={disableNext}>
-                                        {nextLabel}
-                                    </Button>
-                                )}
-
-                                {showPrevious && page > 0 && (
-                                    <Button floated='right' onClick={(e) => this.previous(e, props)}>
-                                        {previousLabel}
-                                    </Button>
-                                )}
-                            </Form.Group>
+                            {ButtonsWrapper ? (
+                                <ButtonsWrapper>
+                                    {buttons()}
+                                </ButtonsWrapper>
+                            ) : buttons()}
 
                             {errorsHeader && hasErrors && (
                                 <Message
