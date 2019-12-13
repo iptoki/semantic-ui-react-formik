@@ -22,11 +22,11 @@ function setFormikFieldValue(form, name, value, shouldValidate) {
 function appendObjectErrors(object, parentField, form, result) {
     for (const key of Object.keys(object)) {
         const val = object[key];
-        
+
         const fieldName = parentField
-        ? (Array.isArray(object) ? parentField + '[' + key + ']' : parentField + '.' + key)
-        : key;
-        
+            ? (Array.isArray(object) ? parentField + '[' + key + ']' : parentField + '.' + key)
+            : key;
+
         if (isObject(val)) {
             appendObjectErrors(val, fieldName, form, result);
         }
@@ -104,7 +104,7 @@ export default class Wizard extends React.Component {
                 }
 
                 const error = getFormikFieldError(form, name);
-                
+
                 let props = {
                     ...componentProps,
                     ...field,
@@ -310,7 +310,7 @@ export default class Wizard extends React.Component {
                                 <Message
                                     negative
                                     header={errorsHeader}
-                                    list={errors.map((e, i) => ({key: i, content: e}))}
+                                    list={errors.map((e, i) => ({ key: i, content: e }))}
                                 />
                             )}
 
