@@ -142,7 +142,8 @@ export default class Wizard extends React.Component {
         super(props);
         this.state = {
             page: 0,
-            values: props.initialValues
+            values: props.initialValues,
+            pochette: props.pochette
         };
     }
 
@@ -261,19 +262,19 @@ export default class Wizard extends React.Component {
                                     <div className="four wide column" />
                                     <div className="ten wide column">
                                         {showSubmit && isLastPage && (
-                                            <Button type='submit' floated='right' primary disabled={disableSubmit}>
+                                            <Button className={this.state.pochette ? 'pochette' : ''} type='submit' floated='right' primary disabled={disableSubmit}>
                                                 {submitLabel}
                                             </Button>
                                         )}
 
                                         {showSubmit && !isLastPage && (
-                                            <Button floated='right' onClick={(e) => this.next(e, props)} primary disabled={disableNext}>
+                                            <Button className={this.state.pochette ? 'pochette' : ''} floated='right' onClick={(e) => this.next(e, props)} primary disabled={disableNext}>
                                                 {nextLabel}
                                             </Button>
                                         )}
                                         {showPrevious && page > 0 && (
 
-                                            <Button className="negative"
+                                            <Button className={`negative ${this.state.pochette ? 'pochette' : ''}`} 
                                                 style={{
                                                     border: "1px solid #DCDFE1",
                                                     bordeRadius: "3px"
